@@ -1,13 +1,13 @@
 -- Creación de tabla base: Comuna
 CREATE TABLE Comuna (
     id_comuna SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL
+    nombre_comuna VARCHAR(100) NOT NULL
 );
 
 -- Edificio de estacionamiento
 CREATE TABLE Edificio_estacionamiento (
     id_edificio SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
+    nombre_estacionamiento VARCHAR(100) NOT NULL,
     direccion VARCHAR(200),
     capacidad_total INTEGER,
     id_comuna BIGINT REFERENCES Comuna(id_comuna)
@@ -16,7 +16,7 @@ CREATE TABLE Edificio_estacionamiento (
 -- Cliente
 CREATE TABLE Cliente (
     id_cliente SERIAL PRIMARY KEY,
-    nombre VARCHAR(100) NOT NULL,
+    nombre_cliente VARCHAR(100) NOT NULL,
     rut VARCHAR(12) UNIQUE NOT NULL,
     direccion VARCHAR(200),
     telefono VARCHAR(20),
@@ -45,8 +45,8 @@ CREATE TABLE Vehiculo (
 -- Relación Cliente-Vehículo
 CREATE TABLE Cliente_vehiculo (
     id_cliveh SERIAL PRIMARY KEY,
-    id_cliente INTEGER REFERENCES Cliente(id_cliente),
-    id_vehiculo INTEGER REFERENCES Vehiculo(id_vehiculo)
+    id_cliente BIGINT REFERENCES Cliente(id_cliente),
+    id_vehiculo BIGINT REFERENCES Vehiculo(id_vehiculo)
 );
 
 -- Lugar de estacionamiento
@@ -55,7 +55,7 @@ CREATE TABLE Lugar (
     numero_lugar INTEGER NOT NULL,
     piso INTEGER,
     estado VARCHAR(20) CHECK (estado IN ('disponible', 'ocupado', 'mantención')),
-    id_edificio INTEGER REFERENCES Edificio_estacionamiento(id_edificio)
+    id_edificio BIGINT REFERENCES Edificio_estacionamiento(id_edificio)
 );
 
 -- Relación Lugar-ClienteVehículo
