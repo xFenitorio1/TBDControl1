@@ -1,4 +1,5 @@
--- Creación de tabla base: Comuna
+
+-- Creación de tabla base: Comuna 
 CREATE TABLE Comuna (
     id_comuna SERIAL PRIMARY KEY,
     nombre_comuna VARCHAR(100) NOT NULL
