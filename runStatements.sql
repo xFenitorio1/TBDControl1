@@ -1,4 +1,4 @@
---Listado de Clientes que más pagan por edificio
+--1. Listado de Clientes que más pagan por edificio
 SELECT e.id_edificio,
     e.nombre_estacionamiento AS edificio,
     c.id_cliente,
@@ -23,7 +23,8 @@ HAVING SUM(p.monto) = (
     )
 )
 ORDER BY e.id_edificio;
---Modelo de auto menos recurrente por edificio
+
+--2. Modelo de auto menos recurrente por edificio
 SELECT 
     e.nombre_estacionamiento AS edificio,
     m.marca,
@@ -47,6 +48,7 @@ HAVING COUNT(*) = (
     )
 )
 ORDER BY e.id_edificio, frecuencia_en_estacionamiento;
+
 --3. Empleados con mayor y menor sueldo por edificio
 SELECT e.id_edificio,
     ed.nombre_estacionamiento AS edificio,
@@ -93,6 +95,7 @@ HAVING SUM(s.monto) = (
 )
 
 ORDER BY id_edificio, tipo_sueldo DESC;
+
 --4. Lista de comunas con la cantidad de clientes
 SELECT com.id_comuna, com.nombre_comuna AS comuna,
     COUNT(c.id_cliente) AS total_clientes
@@ -100,6 +103,7 @@ FROM Comuna com
 LEFT JOIN Cliente c ON com.id_comuna = c.id_comuna
 GROUP BY com.id_comuna, com.nombre_comuna
 ORDER BY total_clientes DESC;
+
 --5. Edificios con más lugares disponibles
 SELECT e.id_edificio,
     e.nombre_estacionamiento AS edificio,
@@ -119,6 +123,7 @@ HAVING COUNT(l.id_lugar) = (
     )
 )
 ORDER BY e.id_edificio;
+
 --6. Edificios con menos lugares disponibles
 /* SUPUESTO: consideramos que como es la "menor cantidad"
 sugiere que al menos debe de existir un lugar, por lo que los estacionaminetos
@@ -141,7 +146,8 @@ HAVING COUNT(l.id_lugar) = (
     )
 )
 ORDER BY e.id_edificio;
---7.Clientes con más autos por edificio
+
+--7. Clientes con más autos por edificio
 SELECT
     e.nombre_estacionamiento AS edificio,
     c.nombre_cliente AS cliente,
@@ -164,6 +170,7 @@ HAVING COUNT(DISTINCT v.id_vehiculo) = (
     ) AS subconsulta
 )
 ORDER BY e.id_edificio;
+
 --8. Lugar más usado por edificio
 SELECT e.id_edificio,
     e.nombre_estacionamiento AS edificio,
@@ -185,7 +192,8 @@ HAVING COUNT(*) = (
     ) AS subconsulta
 )
 ORDER BY e.id_edificio, l.numero_lugar;
---9.Edificio con más empleados
+
+--9. Edificio con más empleados
 SELECT e.id_edificio,
     e.nombre_estacionamiento AS edificio,
     COUNT(emp.id_empleado) AS total_empleados
@@ -202,8 +210,9 @@ HAVING COUNT(emp.id_empleado) = (
     )
 )
 ORDER BY e.id_edificio;
+
 --10. Lista de sueldos por tipo de empleado y edificio (con comuna)
-SELECT 
+SELECT DISTINCT
     ed.nombre_estacionamiento AS edificio,
     co.nombre_comuna AS comuna,
     e.cargo AS tipo_empleado,
