@@ -39,8 +39,7 @@ CREATE TABLE Vehiculo (
     patente VARCHAR(10) UNIQUE NOT NULL,
     color VARCHAR(30),
     año INTEGER,
-    id_modelo BIGINT REFERENCES Modelo(id_modelo),
-    id_cliente BIGINT REFERENCES Cliente(id_cliente)
+    id_modelo BIGINT REFERENCES Modelo(id_modelo)
 );
 
 -- Relación Cliente-Vehículo

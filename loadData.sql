@@ -97,28 +97,28 @@ INSERT INTO Modelo (marca, nombre_modelo, año_fabricacion) VALUES
 ('Great Wall', 'Wingle 5', 2019);
 
 -- 5. Vehículos
-INSERT INTO Vehiculo (patente, color, año, id_modelo, id_cliente) VALUES
-('ABC1234', 'Rojo', 2019, 1, 1),
-('XYZ5678', 'Negro', 2020, 2, 2),
-('JKL1111', 'Blanco', 2022, 5, 3),
-('MNO2222', 'Gris', 2017, 6, 4),
-('PQR3333', 'Azul', 2021, 7, 5),
-('STU4444', 'Verde', 2020, 8, 6),
-('VWX5555', 'Negro', 2021, 3, 1),
-('DEF2222', 'Blanco', 2018, 4, 7),
-('GHI3333', 'Rojo', 2022, 9, 8),
-('LMN4444', 'Azul', 2019, 10, 9),
-('OPQ5555', 'Gris', 2020, 11, 10),
-('RST6666', 'Negro', 2021, 12, 11),
-('UVW7777', 'Verde', 2022, 13, 12),
-('XYZ8888', 'Blanco', 2017, 14, 13),
-('AAA9999', 'Rojo', 2018, 15, 14),
-('BBB0000', 'Azul', 2019, 16, 15),
-('CCC1112', 'Gris', 2020, 17, 16),
-('DDD1314', 'Negro', 2021, 18, 17),
-('EEE1516', 'Verde', 2022, 1, 18),
-('FFF1718', 'Blanco', 2017, 2, 19),
-('GGG1920', 'Rojo', 2018, 3, 20);
+INSERT INTO Vehiculo (patente, color, año, id_modelo) VALUES
+('ABC1234', 'Rojo', 2019, 1),
+('XYZ5678', 'Negro', 2020, 2),
+('JKL1111', 'Blanco', 2022, 5),
+('MNO2222', 'Gris', 2017, 6),
+('PQR3333', 'Azul', 2021, 7),
+('STU4444', 'Verde', 2020, 8),
+('VWX5555', 'Negro', 2021, 3),
+('DEF2222', 'Blanco', 2018, 4),
+('GHI3333', 'Rojo', 2022, 9),
+('LMN4444', 'Azul', 2019, 10),
+('OPQ5555', 'Gris', 2020, 11),
+('RST6666', 'Negro', 2021, 12),
+('UVW7777', 'Verde', 2022, 13),
+('XYZ8888', 'Blanco', 2017, 14),
+('AAA9999', 'Rojo', 2018, 15),
+('BBB0000', 'Azul', 2019, 16),
+('CCC1112', 'Gris', 2020, 17),
+('DDD1314', 'Negro', 2021, 18),
+('EEE1516', 'Verde', 2022, 1),
+('FFF1718', 'Blanco', 2017, 2),
+('GGG1920', 'Rojo', 2018, 3);
 -- 6. Cliente-Vehículo
 INSERT INTO Cliente_vehiculo (id_cliente, id_vehiculo) VALUES
 (1, 1),

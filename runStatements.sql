@@ -1,4 +1,4 @@
---Listado de Clientes que mas pagan por edificio
+--Listado de Clientes que más pagan por edificio
 SELECT e.id_edificio,
     e.nombre_estacionamiento AS edificio,
     c.id_cliente,
