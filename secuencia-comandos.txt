@@ -7,7 +7,7 @@ Este documento describe dos métodos para ejecutar scripts SQL en PostgreSQL:
 2. Desde la consola interactiva de `psql`
 
 📌 Requisitos previos:
-- Tener PostgreSQL instalado y configurado correctamente.
+- Tener PostgreSQL instalado y agregado a las variables de entorno del sistema operativo.
 - Contar con los archivos `dbCreate.sql`, `loadData.sql` y `runStatements.sql` en una carpeta accesible.
 - Conocer el nombre de usuario de PostgreSQL (por defecto suele ser `postgres`).
 
@@ -33,19 +33,21 @@ psql -U postgres -h localhost -d estacionamiento -f dbCreate.sql
 REM 3. Cargar los datos
 psql -U postgres -h localhost -d estacionamiento -f loadData.sql
 
-REM 4. Ejecutar las consultas (solo si la carga fue exitosa)
+REM 4. Ejecutar las consultas (solo si la carga fue exitosa, ademas 
+presionar espacio para que se muestren todas las consultas despues de 
+que se haya ejecutado el comando)
 psql -U postgres -h localhost -d estacionamiento -f runStatements.sql
 
 ────────────────────────────────────────────────────────────
 🧑‍💻 MÉTODO 2: EJECUCIÓN DESDE LA CONSOLA INTERACTIVA DE PSQL
 ────────────────────────────────────────────────────────────
 
-🔹 Paso 1: Abrir la consola `psql`
+🔹 Paso 1: Navegar al directorio donde están los archivos `.sql`
+\cd /ruta/completa/al/proyecto
+
+🔹 Paso 2: Abrir la consola `psql`
 - En la terminal de Windows, escriba:
 psql -U postgres
-
-🔹 Paso 2: Navegar al directorio donde están los archivos `.sql`
-\cd /ruta/completa/al/proyecto
 
 🔹 Paso 3: Ejecutar los comandos en orden
 
@@ -61,7 +63,9 @@ CREATE DATABASE estacionamiento;
 -- 4. Cargar los datos
 \i loadData.sql
 
--- 5. Ejecutar las consultas (solo si no se presentaron errores en la carga)
+-- 5. Ejecutar las consultas (solo si no se presentaron errores en la carga, ademas 
+presionar espacio para que se muestren todas las consultas despues de 
+que se haya ejecutado el comando)
 \i runStatements.sql
 
 ────────────────────────────────────────────────────────────

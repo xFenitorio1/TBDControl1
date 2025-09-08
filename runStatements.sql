@@ -1,7 +1,7 @@
 --1. Listado de Clientes que más pagan por edificio
-SELECT e.id_edificio,
+SELECT
     e.nombre_estacionamiento AS edificio,
-    c.id_cliente,
+    c.rut,
     c.nombre_cliente AS cliente,
     SUM(p.monto) AS gasto_total
 FROM Cliente c
@@ -25,7 +25,7 @@ HAVING SUM(p.monto) = (
 ORDER BY e.id_edificio;
 
 --2. Modelo de auto menos recurrente por edificio
-SELECT 
+SELECT
     e.nombre_estacionamiento AS edificio,
     m.marca,
     m.nombre_modelo,
@@ -53,6 +53,7 @@ ORDER BY e.id_edificio, frecuencia_en_estacionamiento;
 SELECT e.id_edificio,
     ed.nombre_estacionamiento AS edificio,
     e.id_empleado,
+    e.rut,
     e.nombre AS empleado,
     SUM(s.monto) AS sueldo_total,
     'Mayor' AS tipo_sueldo
@@ -76,6 +77,7 @@ UNION ALL
 SELECT e.id_edificio,
     ed.nombre_estacionamiento AS edificio,
     e.id_empleado,
+    e.rut,
     e.nombre AS empleado,
     SUM(s.monto) AS sueldo_total,
     'Menor' AS tipo_sueldo
@@ -97,21 +99,21 @@ HAVING SUM(s.monto) = (
 ORDER BY id_edificio, tipo_sueldo DESC;
 
 --4. Lista de comunas con la cantidad de clientes
-SELECT com.id_comuna, com.nombre_comuna AS comuna,
+SELECT com.nombre_comuna AS comuna,
     COUNT(c.id_cliente) AS total_clientes
 FROM Comuna com
 LEFT JOIN Cliente c ON com.id_comuna = c.id_comuna
-GROUP BY com.id_comuna, com.nombre_comuna
+GROUP BY com.nombre_comuna
 ORDER BY total_clientes DESC;
 
 --5. Edificios con más lugares disponibles
-SELECT e.id_edificio,
+SELECT
     e.nombre_estacionamiento AS edificio,
     COUNT(l.id_lugar) AS lugares_disponibles
 FROM Edificio_estacionamiento e
 JOIN Lugar l ON e.id_edificio = l.id_edificio
 WHERE l.estado = 'disponible'
-GROUP BY e.id_edificio, e.nombre_estacionamiento
+GROUP BY e.nombre_estacionamiento
 HAVING COUNT(l.id_lugar) = (
     SELECT MAX(cantidad)
     FROM (
@@ -121,14 +123,13 @@ HAVING COUNT(l.id_lugar) = (
         WHERE l2.estado = 'disponible'
         GROUP BY e2.id_edificio
     )
-)
-ORDER BY e.id_edificio;
+);
 
 --6. Edificios con menos lugares disponibles
 /* SUPUESTO: consideramos que como es la "menor cantidad"
 sugiere que al menos debe de existir un lugar, por lo que los estacionaminetos
 sin lugar disponible no son considerados */
-SELECT e.id_edificio,
+SELECT
     e.nombre_estacionamiento AS edificio,
     COUNT(l.id_lugar) AS lugares_disponibles
 FROM Edificio_estacionamiento e
@@ -144,12 +145,12 @@ HAVING COUNT(l.id_lugar) = (
         WHERE l2.estado = 'disponible'
         GROUP BY e2.id_edificio
     )
-)
-ORDER BY e.id_edificio;
+);
 
 --7. Clientes con más autos por edificio
 SELECT
     e.nombre_estacionamiento AS edificio,
+    c.rut,
     c.nombre_cliente AS cliente,
     COUNT(DISTINCT v.id_vehiculo) AS cantidad_autos
 FROM Cliente c
@@ -172,9 +173,8 @@ HAVING COUNT(DISTINCT v.id_vehiculo) = (
 ORDER BY e.id_edificio;
 
 --8. Lugar más usado por edificio
-SELECT e.id_edificio,
+SELECT
     e.nombre_estacionamiento AS edificio,
-    l.id_lugar,
     l.numero_lugar,
     COUNT(*) AS veces_usado
 FROM Edificio_estacionamiento e
@@ -190,11 +190,10 @@ HAVING COUNT(*) = (
         WHERE l2.id_edificio = e.id_edificio
         GROUP BY l2.id_lugar
     ) AS subconsulta
-)
-ORDER BY e.id_edificio, l.numero_lugar;
+);
 
 --9. Edificio con más empleados
-SELECT e.id_edificio,
+SELECT
     e.nombre_estacionamiento AS edificio,
     COUNT(emp.id_empleado) AS total_empleados
 FROM Edificio_estacionamiento e
@@ -208,8 +207,7 @@ HAVING COUNT(emp.id_empleado) = (
         JOIN Empleado emp2 ON e2.id_edificio = emp2.id_edificio
         GROUP BY e2.id_edificio
     )
-)
-ORDER BY e.id_edificio;
+);
 
 --10. Lista de sueldos por tipo de empleado y edificio (con comuna)
 SELECT DISTINCT
