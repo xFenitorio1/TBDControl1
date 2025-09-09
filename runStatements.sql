@@ -107,45 +107,49 @@ GROUP BY com.nombre_comuna
 ORDER BY total_clientes DESC;
 
 --5. Edificios con más lugares disponibles
-SELECT
-    e.nombre_estacionamiento AS edificio,
-    COUNT(l.id_lugar) AS lugares_disponibles
-FROM Edificio_estacionamiento e
-JOIN Lugar l ON e.id_edificio = l.id_edificio
-WHERE l.estado = 'disponible'
-GROUP BY e.nombre_estacionamiento
-HAVING COUNT(l.id_lugar) = (
-    SELECT MAX(cantidad)
-    FROM (
-        SELECT COUNT(l2.id_lugar) AS cantidad
-        FROM Edificio_estacionamiento e2
-        JOIN Lugar l2 ON e2.id_edificio = l2.id_edificio
-        WHERE l2.estado = 'disponible'
-        GROUP BY e2.id_edificio
-    )
-);
+/* SUPUESTO: Un contrato solo delimita que edificio puede usar un cliente
+no si un lugar este disponible o no*/
+SELECT 
+    ee.id_edificio,
+    ee.nombre_estacionamiento,
+    ee.direccion,
+    c.nombre_comuna,
+    COUNT(DISTINCT l.id_lugar) AS total_lugares_disponibles
+FROM 
+    Edificio_estacionamiento ee
+JOIN 
+    Comuna c ON ee.id_comuna = c.id_comuna
+JOIN 
+    Lugar l ON ee.id_edificio = l.id_edificio
+WHERE 
+    l.estado = 'disponible'
+GROUP BY 
+    ee.id_edificio, ee.nombre_estacionamiento, ee.direccion, c.nombre_comuna
+ORDER BY 
+    total_lugares_disponibles DESC;
 
 --6. Edificios con menos lugares disponibles
 /* SUPUESTO: consideramos que como es la "menor cantidad"
 sugiere que al menos debe de existir un lugar, por lo que los estacionaminetos
 sin lugar disponible no son considerados */
-SELECT
-    e.nombre_estacionamiento AS edificio,
-    COUNT(l.id_lugar) AS lugares_disponibles
-FROM Edificio_estacionamiento e
-JOIN Lugar l ON e.id_edificio = l.id_edificio
-WHERE l.estado = 'disponible'
-GROUP BY e.id_edificio, e.nombre_estacionamiento
-HAVING COUNT(l.id_lugar) = (
-    SELECT MIN(cantidad)
-    FROM (
-        SELECT COUNT(l2.id_lugar) AS cantidad
-        FROM Edificio_estacionamiento e2
-        JOIN Lugar l2 ON e2.id_edificio = l2.id_edificio
-        WHERE l2.estado = 'disponible'
-        GROUP BY e2.id_edificio
-    )
-);
+SELECT 
+    ee.id_edificio,
+    ee.nombre_estacionamiento,
+    ee.direccion,
+    c.nombre_comuna,
+    COUNT(DISTINCT l.id_lugar) AS total_lugares_no_disponibles
+FROM 
+    Edificio_estacionamiento ee
+JOIN 
+    Comuna c ON ee.id_comuna = c.id_comuna
+JOIN 
+    Lugar l ON ee.id_edificio = l.id_edificio
+WHERE 
+    l.estado IN ('ocupado', 'mantención')
+GROUP BY 
+    ee.id_edificio, ee.nombre_estacionamiento, ee.direccion, c.nombre_comuna
+ORDER BY 
+    total_lugares_no_disponibles DESC;
 
 --7. Clientes con más autos por edificio
 SELECT
